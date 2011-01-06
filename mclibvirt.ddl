@@ -32,3 +32,16 @@ action "status", :description => "Report the status of a given domain" do
            :description => "Status of the domain",
            :display_as  => "Status:"
 end
+
+["start", "shutdown", "destroy", "suspend", "resume"].each do |act|
+    action act, :description => "#{act.capitalize} a domain" do
+        input :name,
+              :prompt      => "Domain Name",
+              :description => "The domain to #{act}",
+              :type        => :string,
+              :validation  => '^[a-zA-Z\-_\d]+$',
+              :optional    => false,
+              :maxlength   => 30
+
+    end
+end

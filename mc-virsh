@@ -6,16 +6,17 @@ include MCollective::RPC
  
 options = rpcoptions do |parser, options|
     parser.define_head "Mcollective virsh-like tool"
-    parser.banner = "Usage: mc-virsh [options] [filters] --all"
+    parser.banner = "Usage: mc-virsh [options] [action] [name] --all"
 
     parser.on('-a', '--all', 'Operate on all domains where appropriate (eg: list)') do |v|
        options[:all] = true
     end
 end
 
-if ARGV.length == 1
-    actions = ['list', 'status']
+if ARGV.length > 0
+    actions = ['list', 'status', "start", "suspend", "destroy", "shutdown", "resume"]
     action = ARGV.shift
+    domname = ARGV.shift
     unless actions.index(action)
         puts("Action must be one of " + actions.join(', '))
         exit 1
@@ -29,11 +30,15 @@ mc = rpcclient("mclibvirt", :options => options)
 mc.progress = false
 
 case action
-    when "list"
-        mc.list(:all => options[:all]).each do |resp|
+    when "list" 
+        mc.list(:all => options[:all] || false).each do |resp|
         puts resp[:sender] + ':'
         puts "\t" + resp[:data].sort.join("\n\t")
-    end
+        end
+    when "start" , "suspend", "destroy", "shutdown", "resume"
+        unless domname 
+            puts "#{action} requires name argument"
+            exit 1
+        end
+        mc.send(action, {:name => domname})
 end
-
-mc.disconnect

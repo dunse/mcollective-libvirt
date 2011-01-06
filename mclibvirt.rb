@@ -47,6 +47,66 @@ module MCollective
                 end
             end
 
+            action "start" do 
+                validate :name, String
+                conn = Libvirt::open("qemu:///system")
+                begin
+                    domain = conn.lookup_domain_by_name(request[:name])
+                    domain.create
+                rescue Libvirt::RetrieveError => e
+                    reply.fail "Unable to lookup domain #{request[:name]}", 1
+                    return
+                end
+            end
+
+            action "destroy" do 
+                validate :name, String
+                conn = Libvirt::open("qemu:///system")
+                begin
+                    domain = conn.lookup_domain_by_name(request[:name])
+                    domain.destroy
+                rescue Libvirt::RetrieveError => e
+                    reply.fail "Unable to lookup domain #{request[:name]}", 1
+                    return
+                end
+            end
+
+            action "shutdown" do 
+                validate :name, String
+                conn = Libvirt::open("qemu:///system")
+                begin
+                    domain = conn.lookup_domain_by_name(request[:name])
+                    domain.shutdown
+                rescue Libvirt::RetrieveError => e
+                    reply.fail "Unable to lookup domain #{request[:name]}", 1
+                    return
+                end
+            end
+
+            action "suspend" do 
+                validate :name, String
+                conn = Libvirt::open("qemu:///system")
+                begin
+                    domain = conn.lookup_domain_by_name(request[:name])
+                    domain.suspend
+                rescue Libvirt::RetrieveError => e
+                    reply.fail "Unable to lookup domain #{request[:name]}", 1
+                    return
+                end
+            end
+
+            action "resume" do 
+                validate :name, String
+                conn = Libvirt::open("qemu:///system")
+                begin
+                    domain = conn.lookup_domain_by_name(request[:name])
+                    domain.resume
+                rescue Libvirt::RetrieveError => e
+                    reply.fail "Unable to lookup domain #{request[:name]}", 1
+                    return
+                end
+            end
+
         end
     end
 end
