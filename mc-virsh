@@ -13,12 +13,27 @@ options = rpcoptions do |parser, options|
     end
 end
 
+if ARGV.length == 1
+    actions = ['list', 'status']
+    action = ARGV.shift
+    unless actions.index(action)
+        puts("Action must be one of " + actions.join(', '))
+        exit 1
+    end
+else
+    puts("Please specify an action")
+    exit 1
+end
+
 mc = rpcclient("mclibvirt", :options => options)
 mc.progress = false
- 
-mc.list(:all => options[:all]).each do |resp|
-    puts resp[:sender] + ':'
-    puts "\t" + resp[:data].sort.join("\n\t")
+
+case action
+    when "list"
+        mc.list(:all => options[:all]).each do |resp|
+        puts resp[:sender] + ':'
+        puts "\t" + resp[:data].sort.join("\n\t")
+    end
 end
 
 mc.disconnect
