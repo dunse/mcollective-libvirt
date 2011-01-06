@@ -32,7 +32,7 @@ module MCollective
                 if request[:all] 
                     result.concat(conn.list_defined_domains)
                 end 
-                reply.data = result.join(" | ")
+                reply.data = result
             end
 
             action "status" do
