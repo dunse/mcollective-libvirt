@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+ 
+require 'mcollective'
+
+include MCollective::RPC
+ 
+options = rpcoptions do |parser, options|
+    parser.define_head "Mcollective virsh-like tool"
+    parser.banner = "Usage: mc-virsh [options] [filters] --all"
+
+    parser.on('-a', '--all', 'Operate on all domains where appropriate (eg: list)') do |v|
+       options[:all] = true
+    end
+end
+
+mc = rpcclient("mclibvirt", :options => options)
+mc.progress = false
+ 
+mc.list(:all => options[:all]).each do |resp|
+    puts resp[:sender] + ':'
+    puts "\t" + resp[:data].join("\n\t")
+end
+
+mc.disconnect

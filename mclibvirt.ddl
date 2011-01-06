@@ -7,7 +7,6 @@ metadata :name        => "SimpleRPC libvirt agent",
          :timeout     => 10
  
 action "list", :description => "List running domains" do
-    display :always
     input :all,
           :prompt      => "List all?",
           :description => "List all domains, not just running ones",
