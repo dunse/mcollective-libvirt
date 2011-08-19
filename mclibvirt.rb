@@ -6,9 +6,9 @@ module MCollective
             metadata :name        => "SimpleRPC libvirt agent",
                      :description => "libvirt wrapper for MCollective",
                      :author      => "Darren Worrall",
-                     :license     => "?",
+                     :license     => "X11",
                      :version     => "0.1",
-                     :url         => "http://will.push.to.github.if.it.works",
+                     :url         => "https://github.com/iwebhosting/mc-virsh",
                      :timeout     => 10
  
             @@virdomainstate = { 0 => "No state",
