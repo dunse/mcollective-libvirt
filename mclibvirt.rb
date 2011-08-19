@@ -20,7 +20,6 @@ module MCollective
                              6 => "Crashed"
             }
 
-            # Provide some basic libvirt functionality
             action "list" do
                 conn = Libvirt::open("qemu:///system")
                 doms = conn.list_domains

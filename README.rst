@@ -19,7 +19,7 @@ The mc-virsh client tool mimics some virsh commands like list::
         onlinevm3
         offlinevm
 
-And a search command to help you find a domain (useful if you use live migration)::
+And a search command to help you find a domain (useful if you use live migration, or just have lots of hosts/domains!)::
 
     $./mc-virsh search onlinevm1
     Running on host1
