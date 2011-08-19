@@ -17,6 +17,17 @@ action "list", :description => "List running domains" do
            :description => "Matching domains",
            :display_as  => "Domains"
 end
+ 
+action "search", :description => "Find a domain" do
+    input :name,
+          :prompt      => "Domain name",
+          :description => "The domain to find",
+          :type        => :string,
+ 
+    output :data,
+           :description => "Matching hosts",
+           :display_as  => "Matching hosts"
+end
 
 action "status", :description => "Report the status of a given domain" do
     display :ok

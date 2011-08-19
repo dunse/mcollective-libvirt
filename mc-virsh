@@ -14,7 +14,7 @@ options = rpcoptions do |parser, options|
 end
 
 if ARGV.length > 0
-    actions = ['list', 'status', "start", "suspend", "destroy", "shutdown", "resume"]
+    actions = ['list', 'status', "start", "suspend", "destroy", "shutdown", "resume", "search"]
     action = ARGV.shift
     domname = ARGV.shift
     unless actions.index(action)
@@ -34,6 +34,14 @@ case action
         mc.list(:all => options[:all] || false).each do |resp|
         puts resp[:sender] + ':'
         puts "\t" + resp[:data].sort.join("\n\t")
+        end
+    when "search"
+        unless domname 
+            puts "#{action} requires name argument"
+            exit 1
+        end
+        mc.status(:name => domname).each do |resp|
+            puts "Running on %s" % resp[:sender] unless resp[:statusmsg] != 'OK'
         end
     when "start" , "suspend", "destroy", "shutdown", "resume"
         unless domname 
